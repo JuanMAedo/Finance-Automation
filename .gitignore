@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignorar el archivo de configuración específico
+/src/config.py
+
 # C extensions
 *.so
 
