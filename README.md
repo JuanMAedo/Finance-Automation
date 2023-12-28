@@ -4,7 +4,8 @@ The idea is to create a Python script capable of receiving an excel in which we 
 ### Income and Expenses
 We will have a table with different columns that will provide us with information for our ways of separating and completing other excels.
 These **principal columns** are:
-- #### **Date**: Important for the choice of the correct year and sheet in each excel and in the annual summaries.
+- #### **Date**: 
+    Important for the choice of the correct year and sheet in each excel and in the annual summaries.
 - #### **Description**:  
 - #### **Amount**: 
 - #### **Type**: Income or Expense.
