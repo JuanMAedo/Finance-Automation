@@ -9,3 +9,4 @@ These **principal columns** are:
 - **Amount**: 
 - **Type**: Income or Expense.
 - **Category**: With the idea of being multi-response and being able to better break down where each euro of our economy is going.
+- **Payment Method**: What bank account, cash, crypto wallet or any Payment Method.  
