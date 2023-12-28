@@ -5,6 +5,7 @@ __pycache__/
 
 # Ignore config with owner pathing
 /src/config.py
+prueba.xlsx
 
 # C extensions
 *.so
