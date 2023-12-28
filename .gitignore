@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Ignorar el archivo de configuración específico
+# Ignore config with owner pathing
 /src/config.py
 
 # C extensions
