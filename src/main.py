@@ -1,17 +1,16 @@
 import openpyxl
-from openpyxl import Workbook
+from openpyxl import *
 from config import *
-from pathlib import Path
+import datetime
+import os
 
 
-
-
+# INPUT CONTROL
 while True:
     input_file_path = input("Input path of your Income and Expense Excel: ")
-    input_file_path = Path(input_file_path)
     
     # Verify the Path and valid input file
-    if input_file_path.exists() and input_file_path.suffix in ('.xls', '.xlsx'):
+    if os.path.exists(input_file_path) and os.path.splitext(input_file_path)[1] in ('.xls', '.xlsx'):
             print("File it's correct")
             break              
     else:
@@ -19,12 +18,35 @@ while True:
 
 
 
+# OPEN AND READ THE INPUT EXCEL
+expense_income_read = load_workbook(input_file_path)
+
+excel_date = expense_income_read.active[table_start_colum].value
+
+# Verify the date
+if isinstance(excel_date, datetime.datetime):
+    #Parses the date    
+    year = excel_date.year
+    month = excel_date.month
+    day = excel_date.day
+
+print(excel_date.weekday()) # 0 es Lunes, 6 es domingo --> Para el parseado semanal de las hojas
 
 
-# Create a new excel workbook
-finance_excel = Workbook()
 
-# Save the workbook at specific path
-finance_excel.save(filename=file_path_name)
 
-print(f'Se ha creado el archivo Excel con éxito.')
+#CREATE OR COMPLETE THE ANNUAL MONTHLY I&E REPORT
+file_name = f"{monthly_income_expense_report} {year}.xlsx"
+
+if os.path.exists(file_name):
+    libro_trabajo = load_workbook(file_name)
+    hoja = libro_trabajo.active
+    # ... 
+    
+else:
+    file_name = Workbook()
+    hoja = file_name.active
+    # ... 
+    
+
+file_name.save(file_name)

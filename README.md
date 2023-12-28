@@ -17,4 +17,6 @@ These **principal columns** are:
 
 - **Category**: With the idea of being multi-response and being able to better break down where each euro of our economy is going.
 
+- **Subcategory**: To be able to know better wher I expend my money.
+
 - **Payment Method**: What bank account, cash, crypto wallet or any Payment Method-  
