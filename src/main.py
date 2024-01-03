@@ -1,20 +1,21 @@
 import openpyxl
 from openpyxl import *
-from config import *
 import datetime
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
+input_file_path = os.getenv('INCOME_EXPENSE_RECORD')
+monthly_income_expense_report = os.getenv('MONTHLY_REPORT_NAME')
+table_start_colum = os.getenv('START_COLUMN')
+table_finish_column = os.getenv('FINISH_COLUMN')
 
-# INPUT CONTROL
-while True:
-    input_file_path = input("Input path of your Income and Expense Excel: ")
     
-    # Verify the Path and valid input file
-    if os.path.exists(input_file_path) and os.path.splitext(input_file_path)[1] in ('.xls', '.xlsx'):
-            print("File it's correct")
-            break              
-    else:
-        print("The pathing '"'{}'"' or the file type are incorrect.".format(input_file_path))
+# Verify the Path and valid input file
+if os.path.exists(input_file_path) and os.path.splitext(input_file_path)[1] in ('.xls', '.xlsx'):
+        print("File it's correct")         
+else:
+    print("The pathing '"'{}'"' or the file type are incorrect.".format(input_file_path))
 
 
 
@@ -30,23 +31,29 @@ if isinstance(excel_date, datetime.datetime):
     month = excel_date.month
     day = excel_date.day
 
-print(excel_date.weekday()) # 0 es Lunes, 6 es domingo --> Para el parseado semanal de las hojas
-
+#print(excel_date.weekday()) # 0 es Lunes, 6 es domingo --> Para el parseado semanal de las hojas
+#print(excel_date.month)
 
 
 
 #CREATE OR COMPLETE THE ANNUAL MONTHLY I&E REPORT
 file_name = f"{monthly_income_expense_report} {year}.xlsx"
-
+print(file_name)
 if os.path.exists(file_name):
-    libro_trabajo = load_workbook(file_name)
-    hoja = libro_trabajo.active
+    inc_exp_excel = load_workbook(file_name)
+    hoja = inc_exp_excel.active
+
+    
+    
     # ... 
     
 else:
-    file_name = Workbook()
-    hoja = file_name.active
+    print(file_name + "crear")
+    inc_exp_excel = Workbook()
+    hoja = inc_exp_excel.active
+    hoja.title = "DASHBOARD"
+
+    
     # ... 
     
-
-file_name.save(file_name)
+inc_exp_excel.save(file_name)
