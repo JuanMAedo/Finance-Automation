@@ -2,6 +2,7 @@ from ctypes import alignment
 import datetime
 import os
 from openpyxl import Workbook, load_workbook
+from openpyxl.utils import column_index_from_string, get_column_letter
 from openpyxl.styles import Alignment, PatternFill, Font
 from parser_datetime import *
 from dotenv import load_dotenv
@@ -12,6 +13,30 @@ input_file_path = os.getenv('INCOME_EXPENSE_RECORD')
 monthly_income_expense_report = os.getenv('MONTHLY_REPORT_NAME')
 table_start_colum = os.getenv('START_COLUMN')
 table_finish_column = os.getenv('FINISH_COLUMN')
+
+def create_monthly_column_sheets(month_sheet,title, init_column,text_column,color_title,color_column):
+    # PARSER INIT_COLUMN TO ITERATIONS
+    column_letter = init_column[0]  
+    column_number = column_index_from_string(column_letter)  
+    row_number = int(init_column[1:])  
+    
+    month_sheet[init_column] = f"{title}"
+    cell_B2 = month_sheet[init_column]
+    cell_B2.alignment = Alignment(horizontal='center')
+    cell_B2.fill = PatternFill(start_color=color_title, end_color=color_title, fill_type="solid")  # Color morado claro
+    cell_B2.font = Font(bold=True, name='Calibri')
+    
+    for i in range(5):
+        current_row = row_number + i
+        cell = month_sheet.cell(row=current_row + 1, column=column_number)
+        week_text = f"{text_column} {i + 1}"
+        
+        cell.value = week_text
+        cell.alignment = Alignment(horizontal='center')
+        cell.fill = PatternFill(start_color=color_column, end_color=color_column, fill_type="solid")  # Color naranja apagado
+        cell.font = Font(bold=True, name='Calibri') 
+
+
 
 # VERIFY INPUT FILE
 if os.path.exists(input_file_path) and os.path.splitext(input_file_path)[1] in ('.xls', '.xlsx'):
@@ -53,22 +78,12 @@ else:
     for month_number, month_name in month_to_name.items():
         month_sheet = inc_exp_excel.create_sheet(month_name)
         inc_exp_excel.active = month_sheet
-        
-        month_sheet['B2'] = f"EXPENSE"
-        cell_B2 = month_sheet['B2']
-        cell_B2.alignment = Alignment(horizontal='center')
-        cell_B2.fill = PatternFill(start_color="C06FCA", end_color="C06FCA", fill_type="solid")  # Color morado claro
-        cell_B2.font = Font(bold=True, name='Calibri') 
-        for i in range(5):
-            cell = month_sheet.cell(row=3 + i, column=2)  # B3, B4...
-            week_text = f"Week {i + 1}"
-            cell.value = week_text
-
-            cell.alignment = Alignment(horizontal='center')
-            cell.fill = PatternFill(start_color="D78740", end_color="D78740", fill_type="solid")  # Color naranja apagado
-            cell.font = Font(bold=True, name='Calibri') 
-                
+        create_monthly_sheets(month_sheet,"INCOME", 'B10', "Week",'24D124','D78740')          
+        create_monthly_sheets(month_sheet,"EXPENSE", 'B2', "Week",'C06FCA','D78740')
+                   
     inc_exp_excel.remove(inc_exp_excel["Sheet"])
     # ... 
     
 inc_exp_excel.save(file_name)
+
+
